@@ -10,6 +10,8 @@ def get_free_gpu():
         for i, line in enumerate(processes_output.strip().split("\n")):
             if line.endswith("None"):
                 print(f"Found Free GPU ID: {i}")
-                return torch.device(f"cuda:{i}")
-        print("ERROR - No Free GPU found! Running on CPU instead...")
+                cuda_device = f"cuda:{i}"
+                torch.cuda.set_device(cuda_device)
+                return torch.device(cuda_device)
+        print("WARN - No Free GPU found! Running on CPU instead...")
     return torch.device("cpu")
