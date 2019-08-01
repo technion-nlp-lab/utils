@@ -7,8 +7,8 @@ def get_free_gpu_list():
     del os.environ['CUDA_VISIBLE_DEVICES']
   free_gpu_list = list()
   if torch.cuda.is_available():
-    gpu_output = Popen(["nvidia-smi", "-q", "-d", "PIDS"], stdout=PIPE, text=True)
-    gpu_processes = Popen(["grep", "Processes"], stdin=gpu_output.stdout, stdout=PIPE, text=True)
+    gpu_output = Popen(["nvidia-smi", "-q", "-d", "PIDS"], stdout=PIPE, encoding="utf-8")
+    gpu_processes = Popen(["grep", "Processes"], stdin=gpu_output.stdout, stdout=PIPE, encoding="utf-8")
     gpu_output.stdout.close()
     processes_output = gpu_processes.communicate()[0]
     for i, line in enumerate(processes_output.strip().split("\n")):
