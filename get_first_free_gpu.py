@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE
 import torch
 
-def get_free_gpu():
+def get_first_free_gpu():
     if torch.cuda.is_available():
         gpu_output = Popen(["nvidia-smi", "-q", "-d", "PIDS"], stdout=PIPE, text=True)
         gpu_processes = Popen(["grep", "Processes"], stdin=gpu_output.stdout, stdout=PIPE, text=True)
