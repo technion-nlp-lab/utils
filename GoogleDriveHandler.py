@@ -24,10 +24,19 @@ class GoogleDriveHandler:
         return cmd_return.returncode, cmd_return.stdout, cmd_return.stderr
 
     def push_files(self, path: str, cmd_args: list = []):
-        return self._execute_drive_cmd("push", path, ["-files"] + cmd_args)
+        try:
+            push_return = self._execute_drive_cmd("push", path, ["-files"] + cmd_args)
+            if push_return[0] == 0:
+                message = f"Successfully pushed results to Google Drive: {path}"
+            else:
+                message = f"Failed to push results to Google Drive: {path}\nExit Code: {push_return[0]}\nSTDOUT: {push_return[1]}\nSTDERR: {push_return[2]}"
+        except Exception as e:
+            message = f"ERROR: {e}\nFailed to push results to Google Drive: {path}"
+        return message
 
     def pull_files(self, path: str, cmd_args: list = []):
         return self._execute_drive_cmd("pull", path, ["-files"] + cmd_args)
+
 
 
 def test_GoogleDriveHandler_push_files():
