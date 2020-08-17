@@ -27,11 +27,11 @@ class GoogleDriveHandler:
         try:
             push_return = self._execute_drive_cmd("push", path, ["-files"] + cmd_args)
             if push_return[0] == 0:
-                message = f"Successfully pushed results to Google Drive: {path}"
+                message = f"Successfully pushed files to Google Drive: {path}"
             else:
-                message = f"Failed to push results to Google Drive: {path}\nExit Code: {push_return[0]}\nSTDOUT: {push_return[1]}\nSTDERR: {push_return[2]}"
+                message = f"Failed to push files to Google Drive: {path}\nExit Code: {push_return[0]}\nSTDOUT: {push_return[1]}\nSTDERR: {push_return[2]}"
         except Exception as e:
-            message = f"ERROR: {e}\nFailed to push results to Google Drive: {path}"
+            message = f"ERROR: {e}\nFailed to push files to Google Drive: {path}"
         return message
 
     def pull_files(self, path: str, cmd_args: list = []):

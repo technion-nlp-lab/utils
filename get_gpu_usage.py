@@ -45,7 +45,7 @@ def write_and_upload_csv(user_gpu_dict):
         writer.writeheader()
         for key, val in user_gpu_dict.items():
             writer.writerow({"user": key, "num_gpus": len(val)})
-    drive_handler.push_files(csv_file, ["-force"])
+    print(drive_handler.push_files(csv_file, ["-force"]))
 
 
 def main():
