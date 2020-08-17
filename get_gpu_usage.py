@@ -4,6 +4,7 @@ from GoogleDriveHandler import GoogleDriveHandler
 from os import environ
 from csv import DictWriter
 import re
+import socket
 
 
 def get_gpu_usage():
@@ -38,7 +39,7 @@ def get_gpu_usage():
 def write_and_upload_csv(user_gpu_dict):
     drive_handler = GoogleDriveHandler()
     upload_dir = f"{drive_handler.local_root}/Technion/NLP Lab GPU Resources/Usage"
-    csv_file = f"{upload_dir}/{environ.get('HOSTNAME')}.csv"
+    csv_file = f"{upload_dir}/{socket.gethostname()}.csv"
     with open(csv_file, 'w', newline='') as f:
         fieldnames = ['user', 'num_gpus']
         writer = DictWriter(f, fieldnames=fieldnames)
