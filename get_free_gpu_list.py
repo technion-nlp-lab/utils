@@ -1,10 +1,12 @@
 from subprocess import Popen, PIPE
+from os import environ
 import torch
 
+
 def get_free_gpu_list():
-  CUDA_VISIBLE_DEVICES = os.environ.get('CUDA_VISIBLE_DEVICES')
+  CUDA_VISIBLE_DEVICES = environ.get('CUDA_VISIBLE_DEVICES')
   if CUDA_VISIBLE_DEVICES:
-    del os.environ['CUDA_VISIBLE_DEVICES']
+    del environ['CUDA_VISIBLE_DEVICES']
   free_gpu_list = list()
   if torch.cuda.is_available():
     gpu_output = Popen(["nvidia-smi", "-q", "-d", "PIDS"], stdout=PIPE, encoding="utf-8")
@@ -17,7 +19,7 @@ def get_free_gpu_list():
           cuda_device = f"cuda:{i}"
           free_gpu_list.append(torch.device(cuda_device))
     if free_gpu_list:
-      os.environ['CUDA_VISIBLE_DEVICES'] = ",".join([str(gpu.index) for gpu in free_gpu_list])
+      environ['CUDA_VISIBLE_DEVICES'] = ",".join([str(gpu.index) for gpu in free_gpu_list])
     else:
       print("WARN - No Free GPUs found!")
   return free_gpu_list, CUDA_VISIBLE_DEVICES
